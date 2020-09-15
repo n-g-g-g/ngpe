@@ -1,0 +1,26 @@
+=====
+PE环境的安装
+下载并安装Windows 评估和部署工具包 (Windows ADK)
+https://docs.microsoft.com/zh-cn/windows-hardware/get-started/adk-install
+选择下载“下载适用于 Windows 10 版本 2004 的 Windows ADK”
+选择下载“下载适用于 ADK 版本 2004 的 Windows PE 加载项”
+
+1、安装ADK，必须选择“部署工具”功能。
+2、安装PE加载项。
+
+
+=====
+创建PE工作环境
+PE工作环境用于从原始PE映像复制一份副本，在此副本上进行定制化工作。本示例将PE工作环境放置在D:\PE文件夹，确保在下列命令执行前D盘不存在该文件夹。
+1、开始菜单以管理员权限启动”indows Kit\Windows部署和映像工具环境“，默认安装的ADK启动后应该显示C:\Program Files (x86)\Windows Kits\10\Assessment and Deployment Kit\Deployment Tools>
+2、在D:\PE创建64位Win10 PE工作环境
+ copype amd64 d:\pe
+
+
+=====
+挂载WIM文件
+将wim（winPE的本体）映射到磁盘上的某一个分区中，便于后续对PE进行定制。
+dism /mount-image /imagefile:"d:\pe\media\sources\boot.wim" /index:1 /mountdir:"d:\pe\mount"
+
+=====
+提示：执行重要的操作之前应对D:\PE文件夹通过复制、打包等方式进行备份。
