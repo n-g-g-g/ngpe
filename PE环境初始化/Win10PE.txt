@@ -22,5 +22,38 @@ PE工作环境用于从原始PE映像复制一份副本，在此副本上进行�
 将wim（winPE的本体）映射到磁盘上的某一个分区中，便于后续对PE进行定制。
 dism /mount-image /imagefile:"d:\pe\media\sources\boot.wim" /index:1 /mountdir:"d:\pe\mount"
 
+
 =====
-提示：执行重要的操作之前应对D:\PE文件夹通过复制、打包等方式进行备份。
+安装补丁
+根据微软官方文档要求，windows 10 2004 PE使用前应先安装windows10.0-kb4048955-x64_delta_d6d0b0bf546068fa31874ae72eec7e18c51f9a09.msu
+dism /add-package /image:"d:\pe\mount" /packagepath:"d:\pe\windows10.0-kb4048955-x64_delta_d6d0b0bf546068fa31874ae72eec7e18c51f9a09.msu"
+
+
+=====
+安装中文支持
+Dism /Add-Package /Image:"d:\pe\mount" /PackagePath:"C:\Program Files (x86)\Windows Kits\10\Assessment and Deployment Kit\Windows Preinstallation Environment\amd64\WinPE_OCs\WinPE-FontSupport-ZH-CN.cab" 
+
+
+=====
+可选功能-安装powershell
+Dism /Add-Package /Image:"D:\pe\mount" /PackagePath:"C:\Program Files (x86)\Windows Kits\10\Assessment and Deployment Kit\Windows Preinstallation Environment\amd64\WinPE_OCs\WinPE-WMI.cab"
+Dism /Add-Package /Image:"D:\pe\mount" /PackagePath:"C:\Program Files (x86)\Windows Kits\10\Assessment and Deployment Kit\Windows Preinstallation Environment\amd64\WinPE_OCs\en-us\WinPE-WMI_en-us.cab"
+Dism /Add-Package /Image:"D:\pe\mount" /PackagePath:"C:\Program Files (x86)\Windows Kits\10\Assessment and Deployment Kit\Windows Preinstallation Environment\amd64\WinPE_OCs\WinPE-NetFX.cab"
+Dism /Add-Package /Image:"D:\pe\mount" /PackagePath:"C:\Program Files (x86)\Windows Kits\10\Assessment and Deployment Kit\Windows Preinstallation Environment\amd64\WinPE_OCs\en-us\WinPE-NetFX_en-us.cab"
+Dism /Add-Package /Image:"D:\pe\mount" /PackagePath:"C:\Program Files (x86)\Windows Kits\10\Assessment and Deployment Kit\Windows Preinstallation Environment\amd64\WinPE_OCs\WinPE-Scripting.cab"
+Dism /Add-Package /Image:"D:\pe\mount" /PackagePath:"C:\Program Files (x86)\Windows Kits\10\Assessment and Deployment Kit\Windows Preinstallation Environment\amd64\WinPE_OCs\en-us\WinPE-Scripting_en-us.cab"
+Dism /Add-Package /Image:"D:\pe\mount" /PackagePath:"C:\Program Files (x86)\Windows Kits\10\Assessment and Deployment Kit\Windows Preinstallation Environment\amd64\WinPE_OCs\WinPE-PowerShell.cab"
+Dism /Add-Package /Image:"D:\pe\mount" /PackagePath:"C:\Program Files (x86)\Windows Kits\10\Assessment and Deployment Kit\Windows Preinstallation Environment\amd64\WinPE_OCs\en-us\WinPE-PowerShell_en-us.cab"
+Dism /Add-Package /Image:"D:\pe\mount" /PackagePath:"C:\Program Files (x86)\Windows Kits\10\Assessment and Deployment Kit\Windows Preinstallation Environment\amd64\WinPE_OCs\WinPE-StorageWMI.cab"
+Dism /Add-Package /Image:"D:\pe\mount" /PackagePath:"C:\Program Files (x86)\Windows Kits\10\Assessment and Deployment Kit\Windows Preinstallation Environment\amd64\WinPE_OCs\en-us\WinPE-StorageWMI_en-us.cab"
+Dism /Add-Package /Image:"D:\pe\mount" /PackagePath:"C:\Program Files (x86)\Windows Kits\10\Assessment and Deployment Kit\Windows Preinstallation Environment\amd64\WinPE_OCs\WinPE-DismCmdlets.cab"
+Dism /Add-Package /Image:"D:\pe\mount" /PackagePath:"C:\Program Files (x86)\Windows Kits\10\Assessment and Deployment Kit\Windows Preinstallation Environment\amd64\WinPE_OCs\en-us\WinPE-DismCmdlets_en-us.cab"
+
+
+=====
+卸载映像，当pe定制完毕后运行此命令
+Dism /Unmount-Image /MountDir:"d:\pe\mount" /commit
+
+
+=====
+提示：通过复制、打包d:\pe进行备份。
