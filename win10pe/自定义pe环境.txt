@@ -1,0 +1,44 @@
+对PE进行自定义时，需先按照初始化介绍中的mount部分加载wim映像
+
+=====
+为PE添加右键mount iso功能
+需要pe初始化中的可选功能：powershell
+在pe的windows\创建ngmountiso.ps1，内容：
+Param(
+  [string]$fileName
+) 
+$fileName
+Mount-DiskImage -ImagePath $fileName -StorageType:ISO
+保存该文件。
+reg load HKLM\petemp d:\pe\mount\windows\system32\config\software
+运行regedit，打开HKLM\petemp\SOFTWARE\Classes\.iso，将其下的OpenWithProgids项删掉；
+打开HKLM\petemp\SOFTWARE\Classes\Windows.IsoFile，保留其下的defaulticon，shell项按如下配置：
+[HKEY_CLASSES_ROOT\Windows.IsoFile\shell\mount]
+[HKEY_CLASSES_ROOT\Windows.IsoFile\shell\mount\command]
+@="x:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -file \"x:\\windows\\ngmountiso.ps1\" \"%1\""
+[HKEY_CLASSES_ROOT\Windows.IsoFile\shell\open]
+[HKEY_CLASSES_ROOT\Windows.IsoFile\shell\open\command]
+@="x:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -file \"x:\\windows\\ngmountiso.ps1\" \"%1\""
+关闭注册表关联reg unload HKLM\petemp
+
+
+=====
+添加第三方软件
+新建\tools文件夹，将需要在pe启动后使用的软件复制进去
+此处建议的软件有：
+ntpwedit  重置Windows用户密码  http://cdslow.org.ru/en/ntpwedit/index.html
+DiskGenius单文件PE版64位  磁盘工具  https://www.diskgenius.cn/download.php
+Dism++  Wim映像管理 http://www.chuyu.me/zh-Hans/index.html
+LaunchBar 用作PE Shell的工具启动器 https://www.lerup.com/LaunchBar/
+TotalCommander  资源管理器 https://www.ghisler.com/
+WinNTSetup  操作系统安装  https://msfn.org/board/topic/149612-winntsetup-v389/
+
+
+=====
+设置PE Shell
+默认的PE启动后只会显示一个cmd窗口，通过设置shell可以在pe启动后自动运行选中的exe，例如文件资源管理器或者其它启动器，此处以将LaunchBar设置为自动启动为示例
+修改d:\pe\mount\windows\system32\startnet.cmd 在文件末尾加入：
+Start x:\tools\launchbar\LaunchBar.exe x:\tools\launchbar\LaunchBar.cfg
+
+
+=====
