@@ -1,0 +1,3 @@
+https://docs.microsoft.com/en-us/windows-hardware/manufacture/desktop/winpe-create-usb-bootable-drive
+https://docs.microsoft.com/en-us/windows-hardware/manufacture/desktop/winpe-mount-and-customize
+https://docs.microsoft.com/en-us/windows-hardware/manufacture/desktop/winpe--use-a-single-usb-key-for-winpe-and-a-wim-file---wim#create-two-partition-drive
