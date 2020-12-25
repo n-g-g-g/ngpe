@@ -35,6 +35,13 @@ Dism /Add-Package /Image:"d:\pe\mount" /PackagePath:"C:\Program Files (x86)\Wind
 
 
 =====
+设置电源模式
+根据微软官方推荐，应设置PE的电源模式
+修改d:\pe\mount\windows\system32\startnet.cmd
+在wpeinit之后加入一新行：
+powercfg /s 8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c
+
+=====
 可选功能-安装powershell
 Dism /Add-Package /Image:"D:\pe\mount" /PackagePath:"C:\Program Files (x86)\Windows Kits\10\Assessment and Deployment Kit\Windows Preinstallation Environment\amd64\WinPE_OCs\WinPE-WMI.cab"
 Dism /Add-Package /Image:"D:\pe\mount" /PackagePath:"C:\Program Files (x86)\Windows Kits\10\Assessment and Deployment Kit\Windows Preinstallation Environment\amd64\WinPE_OCs\en-us\WinPE-WMI_en-us.cab"
@@ -48,6 +55,10 @@ Dism /Add-Package /Image:"D:\pe\mount" /PackagePath:"C:\Program Files (x86)\Wind
 Dism /Add-Package /Image:"D:\pe\mount" /PackagePath:"C:\Program Files (x86)\Windows Kits\10\Assessment and Deployment Kit\Windows Preinstallation Environment\amd64\WinPE_OCs\en-us\WinPE-StorageWMI_en-us.cab"
 Dism /Add-Package /Image:"D:\pe\mount" /PackagePath:"C:\Program Files (x86)\Windows Kits\10\Assessment and Deployment Kit\Windows Preinstallation Environment\amd64\WinPE_OCs\WinPE-DismCmdlets.cab"
 Dism /Add-Package /Image:"D:\pe\mount" /PackagePath:"C:\Program Files (x86)\Windows Kits\10\Assessment and Deployment Kit\Windows Preinstallation Environment\amd64\WinPE_OCs\en-us\WinPE-DismCmdlets_en-us.cab"
+设置powershell执行策略
+修改d:\pe\mount\windows\system32\startnet.cmd
+在wpeinit之后加入一新行：
+powershell.exe -Command set-executionpolicy -executionpolicy Unrestricted
 
 
 =====
