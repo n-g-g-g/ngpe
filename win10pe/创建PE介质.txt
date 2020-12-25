@@ -1,0 +1,50 @@
+=====
+去掉pe启动时的“press any key to boot from dvd。。。”的提示，直接进pe
+删除d:\pe\fwfiles\efisys.bin，用efisys_noprompt.bin改名成efisys.bin
+
+
+=====
+映像清理
+DISM /Cleanup-Image /Image="d:\pe\mount" /StartComponentCleanup /ResetBase
+
+
+=====
+卸载映像
+Dism /Unmount-Image /MountDir:"d:\pe\mount" /commit
+
+
+=====
+压缩映像
+dism /export-image /sourceimagefile:boot.wim /sourceindex:1 /destinationimagefile:boot2.wim /compress:max
+
+
+=====
+创建iso文件
+makewinpemedia /iso d:\pe d:\pesoft\ngpe.iso
+
+
+=====
+u盘分区
+Diskpart
+List disk
+select disk X (X是上一步列出的u盘代号)
+clean
+create partition primary size=500
+active
+format fs=FAT32 quick label="NGPE"
+assign
+create partition primary
+format fs=NTFS quick label="USBData"
+assign
+Exit
+
+
+=====
+创建pe启动u盘
+MakeWinPEMedia /UFD d:\pe L:
+L:是u盘盘符
+如果没有MakeWinPEMedia的情况：
+不使用MakeWinPEMedia创建启动U盘
+按照U盘分区部分，创建NGPE启动分区，复制d;\pe\media内容到该分区即可
+
+
