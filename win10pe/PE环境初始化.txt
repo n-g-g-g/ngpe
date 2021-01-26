@@ -62,6 +62,14 @@ powershell.exe -Command set-executionpolicy -executionpolicy Unrestricted
 
 
 =====
+可选：集成nvme驱动程序
+Intel在11代cpu中引入了VMD（Volume Management Device）功能，1809PE中尚不支持11代cpu的磁盘控制器，现象为pe引导后看不到任何本地磁盘。
+解决方法：bios中禁用vmd或者在pe中集成支持vmd的irst（Intel Rapid Storage Technology）驱动：
+以下命令假定irst驱动已解压缩到D:\Intel-11th-iRST-VMD-Driver
+Dism /Image:d:\pe\mount /Add-Driver /Driver:D:\Intel-11th-iRST-VMD-Driver\F6\VMD\f6vmdflpy-x64\iaStorVD.inf
+如果命令失败，需使用最新版本windows10中的dism.exe，不要使用ADK中“部署和映像工具环境”中的dism.exe。
+
+=====
 卸载映像，当pe定制完毕后运行此命令
 Dism /Unmount-Image /MountDir:"d:\pe\mount" /commit
 
